@@ -166,7 +166,7 @@ class PropertyMatcher:
 
         return min([label_confidence, domain_confidence, range_confidence])
 
-    def match(self, o1, o2):
+    def match(self, o1, o2, th=0.65):
         correct = 0
         pred = 0
         total = 0
@@ -237,7 +237,7 @@ class PropertyMatcher:
                         sim = self.match_property(e1, e2, o1, o2, (soft_metric, general_metric), ds)
                         iterations += 1
                         oi += 1
-                        if sim > 0.65:
+                        if sim > th:
                             if e1 in pm:
                                 if pm[e1][1] >= sim:
                                     continue
@@ -287,7 +287,7 @@ class PropertyMatcher:
 
             print('ontology iterations:', oi)
         print(f'iterations: {iterations}, {metrics(correct, pred, total)}')
-
+        return metrics(correct, pred, total)
 
 
 
